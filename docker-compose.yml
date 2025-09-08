@@ -1,0 +1,36 @@
+services:
+  backend:
+    image: node:20-alpine
+    container_name: backend
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./backend:/app
+    working_dir: /app
+    command: sh -c "npm install && npm run start:dev"
+
+  frontend:
+    image: node:20-alpine
+    container_name: frontend
+    ports:
+      - "5173:5173"
+    volumes:
+      - ./frontend:/app
+    working_dir: /app
+    command: sh -c "npm install && npm run dev"
+
+  db:
+    image: mysql:8.0
+    container_name: db
+    environment:
+      MYSQL_ROOT_PASSWORD: 1234
+      MYSQL_DATABASE: database
+      MYSQL_USER: user
+      MYSQL_PASSWORD: 1234
+    ports:
+      - "3378:3306"
+    volumes:
+      - db_data:/var/lib/mysql 
+
+volumes:
+  db_data:
